@@ -12,4 +12,5 @@ type CategoryController interface {
 	Delete(writer http.ResponseWriter, request *http.Request, params httprouter.Params)
 	FindById(writer http.ResponseWriter, request *http.Request, params httprouter.Params)
 	FindAll(writer http.ResponseWriter, request *http.Request, params httprouter.Params)
+	Index(writer http.ResponseWriter, request *http.Request, params httprouter.Params)
 }

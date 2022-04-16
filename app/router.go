@@ -16,6 +16,8 @@ func NewRouter(categoryController controller.CategoryController) *httprouter.Rou
 	router.PUT("/api/categories/:categoryId", categoryController.Update)
 	router.DELETE("/api/categories/:categoryId", categoryController.Delete)
 
+	router.GET("/", categoryController.Index)
+
 	router.PanicHandler = exception.ErrorHandler
 
 	return router

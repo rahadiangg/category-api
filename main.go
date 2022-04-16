@@ -5,7 +5,6 @@ import (
 	"rahadiangg/category-api/app"
 	"rahadiangg/category-api/controller"
 	"rahadiangg/category-api/helper"
-	"rahadiangg/category-api/middleware"
 	"rahadiangg/category-api/repository"
 	"rahadiangg/category-api/service"
 
@@ -25,7 +24,8 @@ func main() {
 
 	server := http.Server{
 		Addr:    "localhost:3000",
-		Handler: middleware.NewAuthMiddleware(router),
+		Handler: router,
+		// Handler: middleware.NewAuthMiddleware(router),
 	}
 
 	err := server.ListenAndServe()
