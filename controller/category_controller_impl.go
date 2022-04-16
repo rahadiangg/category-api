@@ -25,7 +25,7 @@ func (controller *CategoryControllerImpl) Index(writer http.ResponseWriter, requ
 	webResponse := web.WebResponse{
 		Code:   200,
 		Status: "OK",
-		Data:   os.Getenv("env_deploy"),
+		Data:   os.Getenv("_ENV_DEPLOY"),
 	}
 
 	helper.WriteToResponseBody(writer, webResponse)
