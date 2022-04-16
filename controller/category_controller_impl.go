@@ -24,7 +24,7 @@ func NewCategoryController(categoryService service.CategoryService) CategoryCont
 func (controller *CategoryControllerImpl) Index(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	webResponse := web.WebResponse{
 		Code:   200,
-		Status: "OK",
+		Status: "Test trigger OK",
 		Data:   os.Getenv("_ENV_DEPLOY"),
 	}
 
