@@ -21,6 +21,6 @@ steps:
     - 'managed'
     - '--image'
     - 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME'
-    - '--allow-unauthenticated'
     - '--port'
     - '3000'
+    - '--allow-unauthenticated'
