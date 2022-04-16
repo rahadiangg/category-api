@@ -3,7 +3,7 @@
 steps:
   # Docker build
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-f', './opt/Dockerfile.cloudrun-develop', '-t', 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME', '.']
+    args: ['build', '-f', 'opt/Dockerfile.cloudrun-develop', '-t', 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME', '.']
   
   # Docker Push
   - name: 'gcr.io/cloud-builders/docker'
