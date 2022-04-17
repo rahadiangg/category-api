@@ -3,11 +3,11 @@
 steps:
   # Docker build
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-f', 'ops/Dockerfile', '-t', 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME', '.']
+    args: ['build', '-f', 'ops/Dockerfile', '-t', 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA', '.']
   
   # Docker Push
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME']
+    args: ['push', 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA']
 
   # access the id_github file from secret manager
   - name: gcr.io/cloud-builders/gcloud-slim
