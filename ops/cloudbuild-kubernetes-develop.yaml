@@ -15,7 +15,7 @@ steps:
     args: 
     - '-c'
     - |
-      git clone git@github.com:rahadiangg/category-api-deployment.git
+      git clone https://github.com/rahadiangg/category-api-deployment.git
       cd category-api-deployment
       sed -i 's+sinau-kubernetes/category-api.*+sinau-kubernetes/category-api:$BRANCH_NAME+g' app/dev/deployment.yaml
       git add .
