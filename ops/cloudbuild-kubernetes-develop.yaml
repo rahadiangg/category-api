@@ -22,4 +22,4 @@ steps:
       sed -i 's+sinau-kubernetes/category-api.*+sinau-kubernetes/category-api:$SHORT_SHA+g' app/dev/deployment.yaml
       git add .
       git commit -m "update deployment env develop with SHA: $SHORT_SHA - $BRANCH_NAME"
-      git push https://github.com/rahadiangg/category-api-deployment.git
+      git push https://rahadiangg@github.com/rahadiangg/category-api-deployment.git
