@@ -1,0 +1,23 @@
+# develop enviroment
+
+steps:
+  # Docker build
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-f', 'ops/Dockerfile.cloudrun-develop', '-t', 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME', '.']
+  
+  # Docker Push
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME']
+
+  # Trigger repo deployment for argo-cd
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: /bin/bash
+    args: 
+    - '-c'
+    - |
+      git clone git@github.com:rahadiangg/category-api-deployment.git
+      cd category-api-deployment
+      sed -i 's+sinau-kubernetes/category-api.*+sinau-kubernetes/category-api:$BRANCH_NAME+g' app/dev/deployment.yaml
+      git add .
+      git commit -m "update deployment env develop with SHA: $SHORT_SHA - $BRANCH_NAME"
+      git push
