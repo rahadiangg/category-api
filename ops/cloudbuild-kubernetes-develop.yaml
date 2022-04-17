@@ -42,7 +42,7 @@ steps:
     args:
       - '-c'
       - |
-        git clone --recurse-submodules git@github.com:rahadiangg/category-api-deployment.git
+        git clone git@github.com:rahadiangg/category-api-deployment.git
         git config --global user.email $(git log --format='%an <%ae>' -n 1 HEAD | sed 's/.*\<\([^>]*\)\>.*/\1/g') && \
         sed -i 's+sinau-kubernetes/category-api.*+sinau-kubernetes/category-api:$SHORT_SHA+g' app/dev/deployment.yaml
         git add .
