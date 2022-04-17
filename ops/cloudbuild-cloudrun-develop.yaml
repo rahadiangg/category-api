@@ -3,11 +3,11 @@
 steps:
   # Docker build
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-f', 'ops/Dockerfile.cloudrun-develop', '-t', 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME-cloudrun', '.']
+    args: ['build', '-f', 'ops/Dockerfile', '-t', 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME', '.']
   
   # Docker Push
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME-cloudrun']
+    args: ['push', 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME']
 
   # Deploy to CloudRun
   - name: 'gcr.io/cloud-builders/gcloud-slim'
@@ -20,7 +20,7 @@ steps:
     - '--platform'
     - 'managed'
     - '--image'
-    - 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME-cloudrun'
+    - 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$BRANCH_NAME'
     - '--port'
     - '3000'
     - '--allow-unauthenticated'
