@@ -15,7 +15,7 @@ steps:
     args:
       - '-c'
       - |
-        gcloud secrets versions access latest --secret=id_github > /root/.ssh/id_github
+        gcloud secrets versions access latest --secret=category-api-deployment > /root/.ssh/id_github
     volumes:
       - name: 'ssh'
         path: /root/.ssh
