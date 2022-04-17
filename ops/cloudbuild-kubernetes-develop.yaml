@@ -1,0 +1,69 @@
+# develop enviroment
+
+steps:
+  # Docker build
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-f', 'ops/Dockerfile', '-t', 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA', '.']
+  
+  # Docker Push
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'asia.gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA']
+
+  # access the id_github file from secret manager
+  - name: gcr.io/cloud-builders/gcloud-slim
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud secrets versions access latest --secret=category-api-deployment > /root/.ssh/id_github
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+
+  # set up git with key and domain
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        chmod 600 /root/.ssh/id_github
+        cat <<EOF >/root/.ssh/config
+        Hostname github.com
+        IdentityFile /root/.ssh/id_github
+        EOF
+        ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+
+  # clone & edit deployment repository
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        git clone git@github.com:rahadiangg/category-api-deployment.git
+        git config --global user.email $(git log --format='%an <%ae>' -n 1 HEAD | sed 's/.*\<\([^>]*\)\>.*/\1/g')
+        cd category-api-deployment
+        sed -i 's+sinau-kubernetes/category-api.*+sinau-kubernetes/category-api:$SHORT_SHA+g' app/dev/deployment.yaml
+        git add .
+        git commit -m "update deployment env develop with SHA: $SHORT_SHA - $BRANCH_NAME"
+        git push origin master
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+
+  # - name: 'gcr.io/cloud-builders/git'
+  #   entrypoint: /bin/bash
+  #   args: 
+  #   - '-c'
+  #   - |
+  #     git clone https://github.com/rahadiangg/category-api-deployment.git
+  #     git config --global user.email "dianraha11@gmail.com"
+  #     git config --global user.name "rahadiangg"
+  #     cd category-api-deployment
+  #     sed -i 's+sinau-kubernetes/category-api.*+sinau-kubernetes/category-api:$SHORT_SHA+g' app/dev/deployment.yaml
+  #     git add .
+  #     git commit -m "update deployment env develop with SHA: $SHORT_SHA - $BRANCH_NAME"
+  #     git remote set-url origin https://github.com/rahadiangg/category-api-deployment.git
+  #     git push origin master

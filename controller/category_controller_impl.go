@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"os"
 	"rahadiangg/category-api/helper"
 	"rahadiangg/category-api/model/web"
 	"rahadiangg/category-api/service"
@@ -18,6 +19,16 @@ func NewCategoryController(categoryService service.CategoryService) CategoryCont
 	return &CategoryControllerImpl{
 		CategoryService: categoryService,
 	}
+}
+
+func (controller *CategoryControllerImpl) Index(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	webResponse := web.WebResponse{
+		Code:   200,
+		Status: "Test trigger OK",
+		Data:   os.Getenv("_ENV_DEPLOY"),
+	}
+
+	helper.WriteToResponseBody(writer, webResponse)
 }
 
 func (controller *CategoryControllerImpl) Create(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
