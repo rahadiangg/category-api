@@ -49,7 +49,7 @@ jobs:
           git config --global user.name "huawei-auto-deploy"
           git clone https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
           cd category-api-deployment
-          sed -i "s+sinau-kubernetes/category-api.*+sinau-kubernetes/category-api:$GITHUB_SHA+g" app/huawei-cloud/dev/deployment.yaml
+          sed -i "s+sonar-test/category-api.*+sonar-test/category-api:$GITHUB_SHA+g" app/huawei-cloud/dev/deployment.yaml
           git commit -am "Auto deploy: $GITHUB_SHA"
           git push https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
 
