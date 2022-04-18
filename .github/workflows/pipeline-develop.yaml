@@ -21,15 +21,12 @@ jobs:
           username: ${{ secrets.HUAWEI_ACCESS_KEY }}
           password: ${{ secrets.HUAWEI_LOGIN_KEY }}
 
-      - name: shortsha
-        run: echo "::set-output name=shortsha::$(git rev-parse --short HEAD)"
-
       - name: Build & push to SWR Huawei
         uses: docker/build-push-action@v2.10.0
         with:
           push: true
           file: ops/Dockerfile
-          tags: swr.ap-southeast-3.myhuaweicloud.com/sonar-test/category-api:${{ steps.shortsha.outputs.shortsha }}
+          tags: swr.ap-southeast-3.myhuaweicloud.com/sonar-test/category-api:$(git rev-parse --short "$GITHUB_SHA")
   
   deploy:
     runs-on: ubuntu-latest
