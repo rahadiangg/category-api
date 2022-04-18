@@ -26,5 +26,5 @@ jobs:
         with:
           push: true
           file: ops/Dockerfile
-          tags: sonar-test/category-api:develop
+          tags: swr.ap-southeast-3.myhuaweicloud.com/sonar-test/category-api:develop
 
