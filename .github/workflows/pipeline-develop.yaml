@@ -47,8 +47,9 @@ jobs:
           git config --global user.email "dianraha11@gmail.com"
           git config --global user.name "huawei-auto-deploy"
           git clone https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
-          sed -i 's+sinau-kubernetes/category-api.*+sinau-kubernetes/category-api:$SHORT_SHA+g' app/dev/deployment.yaml
-          git commit -am "Auto deploy: $SHORT_SHA"
-          git push https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
+          ls -la
+          # sed -i 's+sinau-kubernetes/category-api.*+sinau-kubernetes/category-api:$SHORT_SHA+g' app/dev/deployment.yaml
+          # git commit -am "Auto deploy: $SHORT_SHA"
+          # git push https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
 
 
