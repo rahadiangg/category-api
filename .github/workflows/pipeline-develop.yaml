@@ -33,9 +33,11 @@ jobs:
     needs: build
     steps:
       - name: Pull category-api-deployment
-        uses: actions/checkout@v3
-        with:
-          repository: rahadiangg/category-api-deployment
+        # uses: actions/checkout@v3
+        # with:
+        #   repository: rahadiangg/category-api-deployment
+        run: |
+          git clone https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
       
       - name: Get short SHA
         run: export SHORT_SHA=$(git rev-parse --short HEAD)
