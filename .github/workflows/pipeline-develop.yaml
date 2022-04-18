@@ -21,15 +21,15 @@ jobs:
           username: ${{ secrets.HUAWEI_ACCESS_KEY }}
           password: ${{ secrets.HUAWEI_LOGIN_KEY }}
 
-      - name: Add SHORT_SHA env property with commit short sha
-        run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+      # - name: Add SHORT_SHA env property with commit short sha
+      #   run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
 
       - name: Build & push to SWR Huawei
         uses: docker/build-push-action@v2.10.0
         with:
           push: true
           file: ops/Dockerfile
-          tags: swr.ap-southeast-3.myhuaweicloud.com/sonar-test/category-api:${SHORT_SHA}
+          tags: swr.ap-southeast-3.myhuaweicloud.com/sonar-test/category-api:$GITHUB_SHA
   
   deploy:
     runs-on: ubuntu-latest
