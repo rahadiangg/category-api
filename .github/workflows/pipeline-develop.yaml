@@ -26,7 +26,7 @@ jobs:
         with:
           push: true
           file: ops/Dockerfile
-          tags: swr.ap-southeast-3.myhuaweicloud.com/sonar-test/category-api:develop
+          tags: swr.ap-southeast-3.myhuaweicloud.com/sonar-test/category-api:${GITHUB_SHA:7}
   
   deploy:
     runs-on: ubuntu-latest
@@ -38,9 +38,6 @@ jobs:
         #   repository: rahadiangg/category-api-deployment
         # run: |
         #   git clone https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
-      
-      - name: Get short SHA
-        run: export SHORT_SHA=$(git rev-parse --short HEAD)
 
       - name: pull & update config deployment
         run: |
@@ -48,8 +45,8 @@ jobs:
           git config --global user.name "huawei-auto-deploy"
           git clone https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
           cd category-api-deployment
-          sed -i 's+sinau-kubernetes/category-api.*+sinau-kubernetes/category-api:$SHORT_SHA+g' app/dev/deployment.yaml
-          git commit -am "Auto deploy: $SHORT_SHA"
+          sed -i 's+sinau-kubernetes/category-api.*+sinau-kubernetes/category-api:${GITHUB_SHA:7}+g' app/dev/deployment.yaml
+          git commit -am "Auto deploy: ${GITHUB_SHA:7}"
           git push https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
 
 
