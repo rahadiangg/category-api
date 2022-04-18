@@ -27,4 +27,16 @@ jobs:
           push: true
           file: ops/Dockerfile
           tags: swr.ap-southeast-3.myhuaweicloud.com/sonar-test/category-api:develop
+  
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Pull category-api-deployment
+        uses: actions/checkout@v3
+        with:
+          repository: rahadiangg/category-api-deployment
+
+      - name: check this directore
+        run: ls -la
 
