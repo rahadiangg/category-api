@@ -32,20 +32,21 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Pull category-api-deployment
+      # - name: Pull category-api-deployment
         # uses: actions/checkout@v3
         # with:
         #   repository: rahadiangg/category-api-deployment
-        run: |
-          git clone https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
+        # run: |
+        #   git clone https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
       
       - name: Get short SHA
         run: export SHORT_SHA=$(git rev-parse --short HEAD)
 
-      - name: update config
+      - name: pull & update config deployment
         run: |
           git config --global user.email "dianraha11@gmail.com"
           git config --global user.name "huawei-auto-deploy"
+          git clone https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
           sed -i 's+sinau-kubernetes/category-api.*+sinau-kubernetes/category-api:$SHORT_SHA+g' app/dev/deployment.yaml
           git commit -am "Auto deploy: $SHORT_SHA"
           git push https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
