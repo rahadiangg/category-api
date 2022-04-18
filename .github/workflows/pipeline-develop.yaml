@@ -21,17 +21,16 @@ jobs:
           username: ${{ secrets.HUAWEI_ACCESS_KEY }}
           password: ${{ secrets.HUAWEI_LOGIN_KEY }}
 
-      - name: Add SHORT_SHA env property with commit short sha
-        run: |
-          echo $GITHUB_SHA
-          echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
-
+      # - name: Build & push to SWR Huawei
+      #   uses: docker/build-push-action@v2.10.0
+      #   with:
+      #     push: true
+      #     file: ops/Dockerfile
+      #     tags: swr.ap-southeast-3.myhuaweicloud.com/sonar-test/category-api:$GITHUB_SHA
       - name: Build & push to SWR Huawei
-        uses: docker/build-push-action@v2.10.0
-        with:
-          push: true
-          file: ops/Dockerfile
-          tags: swr.ap-southeast-3.myhuaweicloud.com/sonar-test/category-api:$GITHUB_SHA
+        run: |
+          docker build -f ops/Dockerfile -t swr.ap-southeast-3.myhuaweicloud.com/sonar-test/category-api:$GITHUB_SHA .
+          docker push swr.ap-southeast-3.myhuaweicloud.com/sonar-test/category-api:$GITHUB_SHA
   
   deploy:
     runs-on: ubuntu-latest
@@ -50,8 +49,8 @@ jobs:
           git config --global user.name "huawei-auto-deploy"
           git clone https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
           cd category-api-deployment
-          sed -i 's+sinau-kubernetes/category-api.*+sinau-kubernetes/category-api:${{ steps.shortsha.outputs.shortsha }}+g' app/dev/deployment.yaml
-          git commit -am "Auto deploy: ${{ steps.shortsha.outputs.shortsha }}"
+          sed -i 's+sinau-kubernetes/category-api.*+sinau-kubernetes/category-api:$GITHUB_SHA+g' app/dev/deployment.yaml
+          git commit -am "Auto deploy: $GITHUB_SHA"
           git push https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/category-api-deployment.git
 
 
