@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      shortsha: $(git rev-parse --short HEAD)
     steps:
       - uses: actions/checkout@v3
 
@@ -21,16 +23,16 @@ jobs:
           username: ${{ secrets.HUAWEI_ACCESS_KEY }}
           password: ${{ secrets.HUAWEI_LOGIN_KEY }}
 
-      - name: Set outputs short SHA
-        id: shortsha
-        run: echo "::set-output name=shortsha::$(git rev-parse --short HEAD)"
+      # - name: Set outputs short SHA
+      #   id: shortsha
+      #   run: echo "::set-output name=shortsha::$(git rev-parse --short HEAD)"
 
       - name: Build & push to SWR Huawei
         uses: docker/build-push-action@v2.10.0
         with:
           push: true
           file: ops/Dockerfile
-          tags: swr.ap-southeast-3.myhuaweicloud.com/sonar-test/category-api:${{ steps.vars.outputs.shortsha }}
+          tags: swr.ap-southeast-3.myhuaweicloud.com/sonar-test/category-api:$shortsha
   
   deploy:
     runs-on: ubuntu-latest
