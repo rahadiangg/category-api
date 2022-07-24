@@ -45,4 +45,5 @@ jobs:
             sed -i "s+cce-demo/category-api.*+cce-demo/category-api:$short_git_hash+g" category-api/k8s/deployment.yaml
             git commit -am "Auto deploy: $short_git_hash"
             cat category-api/k8s/deployment.yaml
-            git push https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/service-deployment.git
+            git remote set-url origin https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/service-deployment.git
+            git push
