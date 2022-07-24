@@ -1,7 +1,9 @@
 package main
 
 import (
+	"log"
 	"net/http"
+	"os"
 	"rahadiangg/category-api/app"
 	"rahadiangg/category-api/controller"
 	"rahadiangg/category-api/helper"
@@ -23,10 +25,11 @@ func main() {
 	router := app.NewRouter(categoryController)
 
 	server := http.Server{
-		Addr:    "0.0.0.0:3000",
+		Addr:    "0.0.0.0:" + os.Getenv("APP_PORT"),
 		Handler: router,
 		// Handler: middleware.NewAuthMiddleware(router),
 	}
+	log.Println("App run on port ", os.Getenv("APP_PORT"))
 
 	err := server.ListenAndServe()
 	helper.PanicIfError(err)
