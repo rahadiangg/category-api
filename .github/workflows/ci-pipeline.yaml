@@ -46,4 +46,4 @@ jobs:
             git commit -am "Auto deploy: $short_git_hash"
             cat category-api/k8s/deployment.yaml
             git remote add origin https://${{ secrets.PERSONAL_TOKEN_DEPLOYMENT }}@github.com/rahadiangg/service-deployment.git
-            git push
+            git push origin master
